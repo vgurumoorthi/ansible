@@ -1,0 +1,16 @@
+---
+
+ - name: Testing user privilage
+   hosts: webserver
+   remote_user: ansibleuser
+   become: yes
+   tasks:
+
+     - name: Sudo
+       command: /usr/bin/sudo -v
+       register: sudo_response
+       ignore_errors: yes
+
+     - name: Stop further if user doesn't have sudo privileges
+       fail: msg="User doesn't have sudo privileges"
+       when: sudo_response.rc==1  

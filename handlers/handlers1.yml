@@ -1,0 +1,21 @@
+---
+
+ - name: Handlers
+   hosts: webserver
+   remote_user: ansibleuser        
+   become: yes
+   tasks: 
+
+       - name: Update memcached configuration
+         template: src=memcached_web dest=/etc/sysconfig/memcached mode=644
+         become: yes
+         notifuy:
+
+	    -  restart memcached  
+
+   handlers: 
+
+       - name: restart memcached
+         service: name=memcached state=restarted        
+         become: yes  
+

@@ -1,0 +1,15 @@
+---
+
+ - name: Manage service
+   hosts: webserver
+   remote_user: ansibleuser
+   become: yes
+
+   vars: 
+ 
+     - service_name: "monit" 
+     - service_state: "stopped"
+
+   tasks: 
+
+     - include: service.yml

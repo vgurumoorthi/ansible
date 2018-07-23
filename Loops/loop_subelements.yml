@@ -1,0 +1,25 @@
+---
+
+ - name: Looping over subelements
+   hosts: dbserver
+   remote_user: ansibleuser
+   become: yes
+   vars:
+     users: 
+       - name: alice
+         database: 
+           - clientsdb
+           - employeedb
+           - providerdb
+
+       - name: bob
+         databases: 
+           - clientdb
+
+   tasks: 
+
+      - name: Give user access to multiple databases
+        mysql_user: name={{ item.0.name }} priv={{ item.1 }}, *:ALL append_privs=yes password=foo login_user=root login_password=root
+        with_subelements:
+          - users
+          - database

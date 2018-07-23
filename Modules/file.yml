@@ -1,0 +1,9 @@
+---
+ - name: Set file permissions and set owner/group
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+
+     - name: Setting file permission for http.conf file
+       file: path=/etc/httpd/conf/httpd.conf owner=ansibleuser group=ansibleuser mode=0644    
+       become: yes

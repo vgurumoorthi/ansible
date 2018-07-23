@@ -1,0 +1,19 @@
+---
+
+ - name: RPM package
+   hosts: webserver
+   remote_user: ansibleuser
+   become: yes
+   tasks:   
+
+      - name: Querying rpm list for httpd package
+        shell: rpm -qa | grep httpd
+        register: httpd_rpm 
+  
+      - name: Check if httpd package is installed on the remote host
+        debug: msg="httpd package is installed on the remote hosts"
+        when: "'httpd-2.4.6-80.el7.centos.x86_64' in httpd_rpm.stdout and 'httpd-tools-2.4.6-80.el7.centos.x86_64' in httpd_rpm.stdout"
+
+      - name: Check if httpd package is installed on the remote host
+        debug: msg="httpd package is not installed on the remote hosts"
+        when: not 'httpd-2.4.6-80.el7.centos.x86_64' in httpd_rpm.stdout or not 'httpd-tools-2.4.6-80.el7.centos.x86_64' in httpd_rpm.stdout

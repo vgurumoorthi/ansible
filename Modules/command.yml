@@ -1,0 +1,11 @@
+---
+
+ - name: Restart a server
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks:
+
+    - name: Bounce the Web Server
+      command: /sbin/shutdown +1
+      ignore_errors: yes 
+      become: yes

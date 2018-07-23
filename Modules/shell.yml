@@ -1,0 +1,11 @@
+---
+
+ - name: Shell module
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+
+     - name: List files in /etc directory and redirect to a file
+       shell: /bin/ls -ltr /etc > ~/list
+      # become: yes
+   
