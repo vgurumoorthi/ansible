@@ -1,0 +1,27 @@
+---
+
+ - hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+
+     - include: install_apache.yml
+
+     - name: Check apache service
+       service: name={{ package_name }} state=started
+       become: yes
+
+     - name: Debug demo
+       debug: msg={{ ansible_distribution }}
+
+     - name: Check the status of the apache service
+       shell: service httpd status
+       register: status
+    
+     - debug:
+        
+         msg: status.stdout_lines
+ 
+ # - assert: 
+ #       msg: {{ status }} 
+    #    that: 
+    #      - "'running' in srvste.stdout_lines"

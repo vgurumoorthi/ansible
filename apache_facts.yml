@@ -1,0 +1,14 @@
+---
+
+ - hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+
+     - include: install_apache.yml
+
+     - name: Check apache service
+       service: name={{ package_name }} state=started
+       become: yes
+
+     - name: Debug demo
+       debug: msg={{ ansible_distribution }} 

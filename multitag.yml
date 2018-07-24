@@ -1,0 +1,34 @@
+---
+ - name: Checking the functionality of multiple tags
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+   
+     - name: Checking sudo privilages of the user
+       command: /usr/bin/sudo -v
+       register: sudo_response
+       ignore_errors: yes
+       tags: 
+   
+         - pre_check
+
+     - name: Stop further if user doesn't have sudo privilage
+       fail: msg="User doesn't have sudo privilxiage."
+       when: sudo_response.rc != 0 
+       tags: 
+
+         - pre_check
+
+     - name: Stop httpd service 
+       service: name=httpd state=stopped
+       tags: 
+     
+         - stop
+       become: yes
+
+     - name: Start httpd service
+       service: name=httpd state=started
+       tags: 
+
+         - start 
+       become: yes    
