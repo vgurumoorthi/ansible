@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    families:
+      - surname: Smith
+        children:
+          - name: Mike
+            age: 4
+          - name: Kate
+            age: 7
+      - surname: Sanders
+        children:
+          - name: Pete
+            age: 12
+          - name: Sara
+            age: 17
+
+  tasks:
+    - name: List children
+      debug:
+        msg: "Family={{ item.0.surname }} Child={{ item.1.name }} Age={{ item.1.age }}"
+      with_subelements:
+        - "{{ families }}"
+        - children

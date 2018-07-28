@@ -3,7 +3,6 @@
  - name: Testing user privilage
    hosts: webserver
    remote_user: ansibleuser
-   become: yes
    tasks:
 
      - name: Sudo

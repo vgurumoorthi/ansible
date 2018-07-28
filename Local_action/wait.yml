@@ -1,0 +1,35 @@
+---
+ - name: Local action
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks:
+     - name: restart webserver 
+       command: /sbin/reboot
+       async: 0
+       poll: 0
+       ignore_errors: true  
+       become: yes     
+
+     - name: Get status of httpd service
+       command: systemctl status httpd
+       register: httpd_status
+       become: yes
+       ignore_errors: true
+       tags:
+         - start
+         - stop
+
+     - name: Check if httpd service is running
+       debug: msg="httpd service is running"
+       when: "'running' in httpd_status.stdout"
+       tags:
+         - start
+       become: yes
+
+     - name: Check if httpd service is stopped
+       debug: msg="httpd service is not running"
+       when: "'inactive' in httpd_status.stdout"
+       tags:
+         - stop
+       become: yes
+

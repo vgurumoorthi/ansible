@@ -13,6 +13,6 @@
        service: name={{ package1_name }} state=stopped
        become: yes
 
-     - name: install nginx 
+     - name: install git 
        yum: name={{ package2_name }} state=present
        become: yes  

@@ -9,6 +9,6 @@
        become: yes
 
      - name: Install Nginx
-       yum: name=nginax state=present 
+       yum: name=nginx state=present 
        become: yes  
 

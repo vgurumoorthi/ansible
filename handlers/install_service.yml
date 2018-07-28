@@ -1,0 +1,24 @@
+---
+
+ - name: Install httpd package and make the httpd service up and running
+   hosts: webserver
+   remote_user: ansibleuser
+   become: yes
+   tasks:   
+
+      - name: Querying rpm list for httpd package
+        shell: rpm -qa | grep httpd
+        register: httpd_rpm 
+
+      - name: Check the httpd package is installed on the remote host
+        yum: name=httpd state=present
+        become: yes 
+        notify: 
+          - start apache
+        when: not 'httpd-2.4.6-80.el7.centos.1.x86_64' in httpd_rpm.stdout 
+
+   handlers: 
+
+      - name: start apache
+        service: name=httpd state=started
+        become: yes  

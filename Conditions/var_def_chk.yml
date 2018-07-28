@@ -1,0 +1,20 @@
+---
+ - name: Check whether the variable has been defined
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+
+     - name: Checking the destination path
+       pause: prompt="Please provide a path for backup"i
+       private: yes
+       encrype: "md5_crypt"
+       confirm: yes
+       salt_size: 7
+       register: backup_path
+       when: backup_path is not defined
+
+     - name: Backup the sample file 
+       fetch: src=/home/ansibleuser/sample.txt dest={{ backup_path.user_input }}
+       become: yes
+  
+  

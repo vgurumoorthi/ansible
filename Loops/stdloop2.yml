@@ -1,16 +1,15 @@
 --- 
 
  - name: Standard Loop
-   hosts: dbserver
+   hosts: webserver
    remote_user: ansibleuser 
    become: yes
    tasks: 
 
      - name: Install packages
-       yum: name={{ item.name }} state={{ item.state }} 
+       service: name={{ item.name }} state={{ item.state }} 
        with_items: 
         
-           - {name: 'httpd', state: 'latest'}
-           - {name: 'mysql', state: 'latest'} 
-           - {name: 'nginx', state: 'latest'} 
+           - {name: 'httpd', state: 'stopped'}
+           - {name: 'mysqld', state: 'started'} 
        become: yes   

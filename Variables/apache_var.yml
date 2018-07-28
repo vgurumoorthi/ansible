@@ -5,11 +5,11 @@
 
    vars: 
 
-     - package_name: "ntp" 
+     - package_name: "ntpd" 
 
    tasks: 
 
-     - include: install_apache.yml
+#     - include: install_apache.yml
 
      - name: Check apache service
        service: name={{ package_name }} state=started

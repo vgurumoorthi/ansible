@@ -1,0 +1,12 @@
+---
+ - name: Functional testing using assert
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks:
+
+     - action: shell /bin/ls
+       register: list_files
+
+     - assert:
+         that: 
+           - "'sample.txt' in list_files.stdout_lines"     

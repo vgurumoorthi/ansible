@@ -3,13 +3,14 @@
  - name: Standard Loop
    hosts: webserver
    remote_user: ansibleuser 
-   become: yes
    tasks: 
 
      - name: Install packages
        yum: name={{ item }} state=latest 
        with_items: 
-        
-           - nginx
+           - httpd
+           - ntp
+           - epel-release
+           - MySQL-python
            - mysql
        become: yes   
