@@ -1,0 +1,14 @@
+---
+ - hosts: localhost
+   connection: local
+   gather_facts: no
+   vars:
+     region: us-east-1 
+   tasks:
+     - name: EC2 basic provisioning
+       ec2:
+         region: "{{ region }}"
+         key_name: Test-Ansible-key
+         instance_type: t2.micro
+         image: ami-9887c6e7
+         wait: yes  

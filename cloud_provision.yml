@@ -1,0 +1,7 @@
+---
+ - name: Launching new hosts
+   hosts: localhost
+   gather_facts: no
+   tasks:
+     - include: ec2-launch.yml 
+       tags=ec2

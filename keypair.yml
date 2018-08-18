@@ -1,0 +1,15 @@
+---
+ - hosts: localhost
+   connection: local
+   gather_facts: no
+   vars:
+     # US East (North Virginia)
+     region: us-east-1
+  
+   tasks: 
+    
+     - name: remove keypair
+       ec2_key: 
+           region: "{{ region }}" 
+           name: ansiblekey state=absent
+           state: absent   

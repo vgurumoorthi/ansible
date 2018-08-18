@@ -1,0 +1,44 @@
+- name: Create AWS resources
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+  - name: Create a security group
+    ec2_group:
+      name: ansible
+      description: "Ansible Security Group"
+      region: us-east-1 
+      vpc_id: vpc-61dc461a 
+      aws_access_key: AKIAIHRSG2ZX7VFLA3KA 
+      aws_secret_key: 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 
+      rules:
+        - proto: all
+          cidr_ip: 0.0.0.0/0  
+        - proto: all
+          group_name: ansible
+      rules_egress:
+        - proto: all
+          cidr_ip: 0.0.0.0/0
+    register: firewall
+
+  - name: Create an EC2 instance
+    ec2:
+      aws_access_key: AKIAIHRSG2ZX7VFLA3KA 
+      aws_secret_key: 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
+      region: us-east-1 
+      group_id: "{{firewall.group_id}}"
+      instance_type: t2.micro 
+      image: ami-6871a115 
+      wait: yes
+      volumes:
+        - device_name: /dev/sda1
+          volume_type: gp2
+          volume_size: 20
+          delete_on_termination: true
+      exact_count: 1 
+      count_tag:
+         Name: ansible-demo
+      instance_tags:
+         Name: ansible-demo
+    register: ec2

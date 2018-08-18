@@ -1,0 +1,12 @@
+---
+ - hosts: localhost
+   
+   tasks: 
+  
+     - name: Uploading the public key
+       ec2_key:
+          name: Test-Ansible-key
+          region: us-east-1
+          key_material: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/EifmBu+mFS7Jo7l5HAY/vaEC4cAKNoZ7Mqar8On+Ym1xIlKbkrOIRWwXTKAgU3R9+gAJiu1yn9+2XIjgZci8EMYdecJVjCSTVqXqwFjHwTr5ahGEs3ComzQOlJ7NIvewEI143tVRXP0HAh4JD3K3UCGECM7WxNHex1Yl0z9I2Q3NZCXJ7SmEjYBtnLInnxwIxJU1YAkWyQXRHKj7a0mv2vAeAW6uCekHx5+1UeWl66c/x9rYH/gGwZ4ShDDDDJcUPYLsXIojc15z1k19OqKGwqTsudlcC1Zd0xGk9k4UrSO7yNxqjnAs1abDU+yKpzv1oroCRTDzXCDAI/6WOHJh ansibleuser@ip-172-31-20-31.ec2.internal'
+          state: present
+  
