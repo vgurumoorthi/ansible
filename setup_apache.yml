@@ -1,0 +1,13 @@
+---
+ - name: Install apache package
+   hosts: webserver   
+   remote_user: ansibleuser
+   tasks:
+
+     - name: Install httpd package
+       yum: name=httpd state=latest
+       become: yes
+
+     - name: Starting httpd service
+       service: name=httpd state=started
+       become: yes
