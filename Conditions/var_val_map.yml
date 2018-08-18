@@ -1,0 +1,10 @@
+---
+ - name: Checking Variable
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks:
+
+     - name: Backup index.html
+       fetch: src=/home/ansibleuser/sample.txt dest=/tmp/sample.txt.bkp
+       become: yes
+       when: backup   

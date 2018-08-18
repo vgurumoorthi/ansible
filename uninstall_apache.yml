@@ -1,0 +1,13 @@
+---
+ - name: Uninstall apache package
+   hosts: webserver   
+   remote_user: ansibleuser
+   tasks:
+
+     - name: Stopping httpd service
+       service: name=httpd state=stopped
+       become: yes
+
+     - name: Uninstall httpd paickage
+       yum: name=httpd state=absent
+       become: yes

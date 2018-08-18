@@ -1,0 +1,11 @@
+--- 
+
+ - name: Test template
+   remote_user: ansibleuser
+   hosts: webserver
+   become: yes
+   tasks: 
+
+     - name: create a template file
+       template: src=templ dest=/tmp mode=644   
+     

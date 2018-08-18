@@ -1,0 +1,14 @@
+---
+ - name: Configure a web server with nginx
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks: 
+
+     - name: Install EPEL repository
+       yum: name=epel-release state=absent
+       become: yes
+
+     - name: Install Nginx
+       yum: name=nginx state=present 
+       become: yes  
+

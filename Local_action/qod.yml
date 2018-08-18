@@ -1,0 +1,13 @@
+---
+ - name: Displaying quote of the day
+   hosts: webserver 
+   remote_user: ansibleuser
+   tasks: 
+
+     - name: Get the quote of the day
+       local_action: uri url=http://api.theysaidso.com/qod.json
+       register: qod
+
+     - name: Print the QOD
+       debug: msg="{{ qod.json.contents.quotes }}"
+ 

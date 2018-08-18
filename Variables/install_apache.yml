@@ -1,0 +1,9 @@
+ - set_fact: package_name=httpd
+   when: ansible_os_family == "RedHat"
+   
+ - set_fact: package_name=apache2
+   when: ansible_os_family == "Debian"
+
+ - name: Install httpd package
+   yum: name={{ package_name }} state=latest
+   become: yes

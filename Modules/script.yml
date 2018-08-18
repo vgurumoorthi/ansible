@@ -1,0 +1,9 @@
+---
+ - name: List directory
+   hosts: webserver
+   remote_user: ansibleuser
+   tasks:
+
+     - name: List the directory
+       script: script.sh /etc
+       become: yes 

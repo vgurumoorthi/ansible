@@ -1,0 +1,15 @@
+--- 
+
+ - name: Standard Loop
+   hosts: webserver
+   remote_user: ansibleuser 
+   become: yes
+   tasks: 
+
+     - name: Install packages
+       service: name={{ item.name }} state={{ item.state }} 
+       with_items: 
+        
+           - {name: 'httpd', state: 'stopped'}
+           - {name: 'mysqld', state: 'started'} 
+       become: yes   

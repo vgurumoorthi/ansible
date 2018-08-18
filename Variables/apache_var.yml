@@ -1,0 +1,16 @@
+---
+
+ - hosts: webserver
+   remote_user: ansibleuser
+
+   vars: 
+
+     - package_name: "ntpd" 
+
+   tasks: 
+
+#     - include: install_apache.yml
+
+     - name: Check apache service
+       service: name={{ package_name }} state=started
+       become: yes

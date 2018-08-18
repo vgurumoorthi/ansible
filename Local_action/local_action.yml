@@ -1,0 +1,22 @@
+---
+ - name: How to use local action feature
+   hosts: webserver
+   remote_user: ansibleuser
+   become: yes
+   tasks:
+
+     - name: Check the running process on the remote server
+       shell: ps
+       register: remote_processes
+
+     - name: Remote running process
+       debug: msg="{{ remote_processes.stdout }}"
+
+     - name: check running processes on local system
+       local_action: shell ps 
+       register: local_processes
+
+     - name: local running processes
+       debug: msg="{{ local_processes.stdout }}" 
+ 
+
