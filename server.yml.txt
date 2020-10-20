@@ -1,0 +1,54 @@
+---
+ - name: Setting up a sever
+   hosts: webserver
+   remote_user: ansible
+   tasks:
+
+    - name: Ensure EPEL is enabled
+      yum: name=epel-release state=present
+      become: true
+
+    - name: Ensure libselinux-python is present
+      yum: name=python3-libselinux state=present
+      become: true
+
+    - name: Ensure libsemanage-python is present
+      yum: name=policycoreutils-python-utils state=present
+      become: true
+
+    - name: Ensure NTP isinstalled
+      yum: name=chrony state=present
+      become: true
+
+    - name: Esnure we have latest version of every package
+      yum: name="*" state=latest
+      become: true
+
+    - name: Ensure the timezone is set to UTC
+      file: src=/usr/share/zoneinfo/GMT dest=/etc/localtime state=link
+      become: true
+
+    - name: Ensure the NTP service is running and enabled
+      service: name=chronyd state=started enabled=true
+      become: true
+
+    - name: Ensure FirewallD is installed
+      yum: name=firewalld state=present
+      become: true
+
+    - name: Ensure FirewallD is running
+      service: name=firewalld state=started enabled=true
+      become: true
+
+    - name: Ensure SSH pass on the firewall
+      firewalld: service=ssh state=enabled permanent=true immediate=true
+      become: true
+
+    - name: Ensure the MOTD file is present and updated
+      template: src=motd dest=/etc/motd owner=root group=root mode=0644
+      become: true
+
+    - name: Ensure the hostname is the same of the inventory
+      hostname: name="{{ inventory_hostname }}"
+      become: true
+
