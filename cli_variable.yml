@@ -1,0 +1,8 @@
+---
+ - name: Command Line Variables
+   hosts: webserver
+   remote_user: ansible
+   tasks:
+     - name: Print variable 'name'
+       debug:
+         msg: '{{ name }}'
