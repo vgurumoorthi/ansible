@@ -1,0 +1,12 @@
+---
+ - name: Setting variables
+   hosts: webserver
+   remote_user: ansible
+   tasks:
+     - name: Set Variable 'name'
+       set_fact:
+         name: Test Machine
+
+     - name: Print Variable 'name'
+       debug:
+         msg: '{{ name }}'
