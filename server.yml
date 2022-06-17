@@ -13,7 +13,7 @@
       become: true
 
     - name: Ensure libsemanage-python is present
-      yum: name=policycoreutils-python-utils state=present
+      yum: name=policycoreutils-python state=present
       become: true
 
     - name: Ensure NTP isinstalled
