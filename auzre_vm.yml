@@ -1,0 +1,66 @@
+---
+ - name: Create a Azure Windows VM
+   hosts: localhost
+   connection: local
+   vars_prompt:
+       name: password
+       prompt: "Enter local administrator password"
+   tasks:
+     - name: Create a resource group name
+       azure_rm_resourcegroup:
+            name: WinServers
+            location: eastus
+
+     - name: Create a Virtual Network
+       azure_rm_virtualnetwork:
+            resource_group: WinServers
+            name: winvnet 
+            address_prefixes_cidr: "20.0.0.0/16"
+
+     - name: Create a subnet
+       azure_rm_subnet:
+            resource_group: WinServers
+            name: winsubnet
+            address_prefix: "20.0.1.0/24"
+            virtual_network: winvnet
+
+     - name: Create a public IP Address
+       azure_rm_publicipaddress:
+            resource_group: WinServers
+            allocation_method: dynamic
+            name: pub_ip
+       register: public_ip_aadress
+
+     - name: Display the public up address
+       debug:
+         msg: "The public ip address is {{ public_ip_address }}"
+
+     - name: Create a network security group
+       azure_rm_securitygroup:
+            resource_group: WinServers
+            name: WinSec_sg
+            rules:
+              - name: Allow RDP
+                protocol: tcp
+                destination_port_range: 3389
+                access: allow
+                priority: 1001
+                direction: inbound
+
+              - name: Allow Web Traffic
+                protocol: tcp
+                destination_port_range:
+                    - 80
+                    - 443
+                access: allow
+                priority: 1002
+                direction: inbound
+
+              - name: Allow powershell remoting
+                protocol: tcp
+                destination_port_range:
+                   - 5985
+                   - 5986
+                access: allow
+                priority: 1003
+                direction: inbound
