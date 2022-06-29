@@ -1,0 +1,6 @@
+---
+ - hosts: dbserver
+   remote_user: ansible
+   roles:
+     - common
+     - dbserver
