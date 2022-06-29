@@ -1,0 +1,19 @@
+---
+ - name: Block execution
+   hosts: webserver
+   remote_user: ansible
+   become: yes
+   tasks:
+     - block:
+       - name: Ensure HTTPd is present
+         yum:
+          name: httpd
+          state: present
+
+       - name: Ensure HTTPd is running
+         service:
+            name: httpd
+            state: started
+            enabled: True
+       when: ansible_distribution == 'CentOS'
+~
