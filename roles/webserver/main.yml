@@ -1,0 +1,33 @@
+---
+ - name: Ensure the HTTPd package is installed
+   yum: name=httpd state=present
+   become: True
+
+ - name: Ensure the HTTPd service is enabled and running
+   service: name=httpd state=started enabled=True
+   become: True
+
+ - name: Ensure HTTP can pass the firewall
+   firewalld: service={{ item }} state=enabled permanent=True immediate=True
+   with_items:
+       - http
+       - https
+   become: True
+
+ - name: Updating the httpd configuration file
+   copy:
+    src: website.conf
+    dest: /etc/httpd/httpd.conf
+   become: true
+   notify: Restart httpd
+
+
+ - name: Ensure the website is present and updated
+   template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+   become: True
+~
