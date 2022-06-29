@@ -1,0 +1,16 @@
+---
+ - name: Using delegate_to module
+   hosts: webserver
+   remote_user: ansible
+   become: true
+   tasks:
+
+     - name: stopping apache
+       service: name=httpd state=stopped
+
+     - name: installing epel-release
+       yum: name=epel-release state=latest
+       delegate_to: dbserver
+
+     - name: starting apache
+       service: name=httpd state=started
