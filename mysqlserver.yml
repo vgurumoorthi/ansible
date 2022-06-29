@@ -1,0 +1,53 @@
+- name: setup Mysql with sample_db
+  become: yes
+  hosts: webserver
+  vars_prompt:
+      - name: ssh_password
+        prompt: Enter the password
+        private: true
+        encryption: md5_crypt
+        confirm: true
+
+  tasks:
+    - name: Installing Mysql  and dependencies
+      package:
+       name: "{{item}}"
+       state: present
+       update_cache: yes
+      loop:
+       - mysql-server
+       - mysql
+       - mysql-devel
+       - gcc
+       - python-pip
+       - python-devel
+      become: yes
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    - name: creating mysql user
+      mysql_user:
+        name: test_user
+        password: prompt
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+    - name: creating sample_db
+      mysql_db:
+        name: sample_db
+        state: present
+    - name: Enable remote login to mysql
+      lineinfile:
+         path: /etc/mysql/mysql.conf.d/mysqld.cnf
+         regexp: '^bind-address'
+         line: 'bind-address = 0.0.0.0'
+         backup: yes
+      notify:
+         - Restart mysql
+  handlers:
+    - name: Restart mysql
+      service:
+        name: mysql
+        state: restarted
